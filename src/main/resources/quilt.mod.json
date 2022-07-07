@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "io.cocona20xx",
+    "id": "reOrderly",
+    "version": "${version}",
+    "metadata": {
+      "name": "ReOrderly",
+      "description": "Quilt Port of Orderly, which itself was a port of Neat to Fabric",
+      "license": "CC-BY-NC-SA-3.0",
+      "contributors": {
+        "Quilt Port Author": "cocona20xx/rin",
+        "Orderly (Fabric Port) Authors": "Prospector, UpcraftLP",
+        "Neat (Original Forge Mod) Author": "Vazkii"
+      },
+      "contact": {
+        "issues": "https://github.com/cocona20xx/reOrderly/issues",
+        "sources": "https://github.com/cocona20xx/reOrderly"
+      },
+      "icon": "assets/reorderly/icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "client_init": "io.github.cocona20xx.reorderly.ReOrderlyMod",
+      "modmenu": "io.github.cocona20xx.reorderly.config.OrderlyModMenuCompat"
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "versions": ">=0.17.0-"
+      },
+      {
+        "id": "quilted_fabric_api",
+        "versions": ">=1.0.0-"
+      },
+      {
+        "id": "minecraft",
+        "versions": ">=1.18.2"
+      },
+      {
+        "id": "modmenu",
+        "versions": ">=3.2.3"
+      }
+
+    ]
+  },
+  "mixin": "reorderly.mixins.json"
+}

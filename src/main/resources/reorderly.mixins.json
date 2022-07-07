@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "io.github.cocona20xx.reorderly.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "client": [
+      "MixinHealthBarRender"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

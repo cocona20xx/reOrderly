@@ -1,12 +1,12 @@
-package io.github.prospector.orderly.config;
+package io.github.cocona20xx.reorderly.config_old;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
-import io.github.prospector.orderly.Orderly;
-import net.fabricmc.loader.api.FabricLoader;
+import io.github.cocona20xx.reorderly.ReOrderlyMod;
+import org.quiltmc.loader.api.QuiltLoader;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,46 +21,46 @@ import java.util.concurrent.Executors;
 
 public class OrderlyConfigManager {
 
-    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor(r -> new Thread(r, "Orderly Config Manager"));
+    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor(r -> new Thread(r, "ReOrderlyMod Config Manager"));
     private static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
-    private static OrderlyConfigImpl config;
+    private static ReOrderlyConfigAccessorImpl config;
     private static Path configFile;
 
-    public static OrderlyConfigImpl getConfig() {
+    public static ReOrderlyConfigAccessorImpl getConfig() {
         return config != null ? config : init();
     }
 
-    public static OrderlyConfigImpl init() {
-        configFile = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(Orderly.MODID + ".json");
+    public static ReOrderlyConfigAccessorImpl init() {
+        configFile = QuiltLoader.getConfigDir().resolve(ReOrderlyMod.MODID + ".json");
         if(!Files.exists(configFile)) {
-            Orderly.getLogger().info("creating orderly config file ({})", configFile::getFileName);
+            ReOrderlyMod.getLogger().info("creating orderly config file ({})", configFile::getFileName);
             save().join();
         }
         load().thenApply(c -> config = c).join();
         return Objects.requireNonNull(config, "failed to init config");
     }
 
-    public static CompletableFuture<OrderlyConfigImpl> load() {
+    public static CompletableFuture<ReOrderlyConfigAccessorImpl> load() {
         return CompletableFuture.supplyAsync(() -> {
             try(BufferedReader reader = Files.newBufferedReader(configFile)) {
-                return GSON.fromJson(reader, OrderlyConfigImpl.class);
+                return GSON.fromJson(reader, ReOrderlyConfigAccessorImpl.class);
             }
             catch (IOException | JsonParseException e) {
-                Orderly.getLogger().error("unable to read config file, restoring defaults!", e);
+                ReOrderlyMod.getLogger().error("unable to read config file, restoring defaults!", e);
                 save();
-                return new OrderlyConfigImpl();
+                return new ReOrderlyConfigAccessorImpl();
             }
         }, EXECUTOR);
     }
 
     public static CompletableFuture<Void> save() {
-        Orderly.getLogger().trace("saving orderly config file to {}", configFile);
+        ReOrderlyMod.getLogger().trace("saving orderly config file to {}", configFile);
         return CompletableFuture.runAsync(() -> {
             try(BufferedWriter writer = Files.newBufferedWriter(configFile)) {
-                GSON.toJson(Optional.ofNullable(config).orElseGet(OrderlyConfigImpl::new), writer);
+                GSON.toJson(Optional.ofNullable(config).orElseGet(ReOrderlyConfigAccessorImpl::new), writer);
             }
             catch (IOException | JsonIOException e) {
-                Orderly.getLogger().error("unable to write config file", e);
+                ReOrderlyMod.getLogger().error("unable to write config file", e);
             }
         }, EXECUTOR);
     }

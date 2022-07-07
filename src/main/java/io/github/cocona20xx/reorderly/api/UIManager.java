@@ -1,7 +1,7 @@
-package io.github.prospector.orderly.api;
+package io.github.cocona20xx.reorderly.api;
 
-import io.github.prospector.orderly.Orderly;
-import io.github.prospector.orderly.ui.DefaultUIStyle;
+import io.github.cocona20xx.reorderly.ReOrderlyMod;
+import io.github.cocona20xx.reorderly.ui.DefaultUIStyle;
 import net.minecraft.util.Identifier;
 
 import java.util.Collections;
@@ -18,7 +18,7 @@ public final class UIManager {
 
     public static void registerStyle(Identifier identifier, Supplier<UIStyle> style) {
         if(STYLES.putIfAbsent(identifier, style) != null) {
-            Orderly.getLogger().error("attempted to override UI style {}, this is not allowed!", identifier, new IllegalStateException(identifier + " registered twice"));
+            ReOrderlyMod.getLogger().error("attempted to override UI style {}, this is not allowed!", identifier, new IllegalStateException(identifier + " registered twice"));
         }
     }
 

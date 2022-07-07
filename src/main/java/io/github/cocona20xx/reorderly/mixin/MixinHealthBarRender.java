@@ -1,6 +1,6 @@
-package io.github.prospector.orderly.mixin;
+package io.github.cocona20xx.reorderly.mixin;
 
-import io.github.prospector.orderly.HealthBarRenderer;
+import io.github.cocona20xx.reorderly.HealthBarRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.GameRenderer;

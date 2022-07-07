@@ -1,8 +1,9 @@
-package io.github.prospector.orderly.api.config;
+package io.github.cocona20xx.reorderly.config;
 
+import java.util.List;
 import java.util.Set;
 
-public interface OrderlyConfig {
+public interface ReOrderlyConfigAccessor {
     boolean canDraw();
 
     int getMaxDistance();
@@ -25,31 +26,31 @@ public interface OrderlyConfig {
 
     int getPlateSizeBoss();
 
-    boolean canShowAttributes();
+    boolean showAttributes();
 
-    boolean canShowArmor();
+    boolean showArmor();
 
-    boolean canShowGroupArmor();
+    boolean showGroupArmor();
 
     boolean colorByType();
 
     int getHpTextHeight();
 
-    boolean canShowMaxHP();
+    boolean showMaxHP();
 
     boolean showCurrentHP();
 
-    boolean canShowPercentage();
+    boolean showPercentage();
 
-    boolean canShowOnPlayers();
+    boolean showOnPlayers();
 
-    boolean canShowOnBosses();
+    boolean showOnBosses();
 
     boolean showingOnlyFocused();
 
     boolean isDebugInfoEnabled();
 
-    Set<String> getBlacklist();
+    List<String> getBlacklist();
 
-    Set<String> getBosses();
+    List<String> getBosses();
 }

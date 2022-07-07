@@ -1,85 +1,80 @@
 plugins {
-    id 'java'
     id 'maven-publish'
-    id 'idea'
-    id 'eclipse'
-    id 'fabric-loom' version '0.4-SNAPSHOT'
+    id 'org.quiltmc.loom' version '0.12.+'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-archivesBaseName = project.archive_name
-version = project.mod_version
+archivesBaseName = project.archives_base_name
+version = project.version
 group = project.maven_group
 
-def ENV = System.getenv()
-def buildNumber = "+" + (ENV.BUILD_NUMBER ? ("build." + ENV.BUILD_NUMBER) : "custom")
-def buildMeta = (!ENV.TAG || ENV.TAG.endsWith("-beta") || ENV.TAG.endsWith("-alpha")) ? buildNumber : ""
-def modVersion = (ENV.TAG ?: version)
-version = "${modVersion}${buildMeta}-1.16"
-
-
 repositories {
-    jcenter()
+    maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/'
+    }
 }
 
+// All dependency versions are declared in the gradle.properties file
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
-    include "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
-    compileOnly "com.google.code.findbugs:jsr305:3.0.2"
-    modImplementation "io.github.prospector:modmenu:${project.mod_menu_version}"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings(loom.layered {
+        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${minecraft_version}+build.${quilt_mappings_version}:v2"))
+    })
+    modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
+    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fabric_api_version}-${minecraft_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
+    compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
-        expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
+    filesMatching('quilt.mod.json') {
+        expand "version": version
     }
 }
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+    it.options.release = 17
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
+java {
+    // Still required by IDEs such as Eclipse and Visual Studio Code
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+
+    // If this mod is going to be a library, then it should also generate Javadocs in order to aid with developement.
+    // Uncomment this line to generate them.
+    // withJavadocJar()
 }
 
+// If you plan to use a different file for the license, don't forget to change the file name here!
 jar {
-    from "LICENSE"
+    from("LICENSE") {
+        rename { "${it}_${archivesBaseName}" }
+    }
 }
 
+// Configure the maven publication
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact(remapJar)
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
+            from components.java
         }
     }
 
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        if (project.hasProperty('mavenPass')) {
-            maven {
-                url = "http://mavenupload.modmuss50.me/"
-                credentials {
-                    username = "buildslave"
-                    password = project.getProperty('mavenPass')
-                }
-            }
-        }
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
     }
 }

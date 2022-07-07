@@ -1,12 +1,12 @@
-package io.github.prospector.orderly;
+package io.github.cocona20xx.reorderly;
 
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.prospector.orderly.util.RenderUtil;
-import io.github.prospector.orderly.api.UIManager;
-import io.github.prospector.orderly.api.UIStyle;
-import io.github.prospector.orderly.api.config.OrderlyConfig;
-import io.github.prospector.orderly.config.OrderlyConfigManager;
+import io.github.cocona20xx.reorderly.util.RenderUtil;
+import io.github.cocona20xx.reorderly.api.UIManager;
+import io.github.cocona20xx.reorderly.api.UIStyle;
+import io.github.cocona20xx.reorderly.config.ReOrderlyConfigAccessor;
+import io.github.cocona20xx.reorderly.config_old.OrderlyConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Frustum;
@@ -37,7 +37,7 @@ public class HealthBarRenderer {
 
     public static void render(MatrixStack matrices, float partialTicks, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f projection, Frustum capturedFrustum) {
         MinecraftClient mc = MinecraftClient.getInstance();
-        OrderlyConfig config = OrderlyConfigManager.getConfig();
+        ReOrderlyConfigAccessor config = OrderlyConfigManager.getConfig();
         if(mc.world == null || (!config.canRenderInF1() && !MinecraftClient.isHudEnabled()) || !config.canDraw()) {
             return;
         }
@@ -107,7 +107,7 @@ public class HealthBarRenderer {
 
     private static void renderHealthBar(LivingEntity passedEntity, MatrixStack matrices, float partialTicks, Camera camera, Entity viewPoint) {
         Preconditions.checkNotNull(passedEntity, "tried to render health bar for null entity");
-        OrderlyConfig config = OrderlyConfigManager.getConfig();
+        ReOrderlyConfigAccessor config = OrderlyConfigManager.getConfig();
         UIStyle style = UIManager.getCurrentStyle();
 
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -133,10 +133,10 @@ public class HealthBarRenderer {
                 if(distance > config.getMaxDistance() || !passedEntity.canSee(viewPoint) || entity.isInvisible()) {
                     break processing;
                 }
-                if(boss && !config.canShowOnBosses()) {
+                if(boss && !config.showOnBosses()) {
                     break processing;
                 }
-                if(!config.canShowOnPlayers() && entity instanceof PlayerEntity) {
+                if(!config.showOnPlayers() && entity instanceof PlayerEntity) {
                     break processing;
                 }
                 if(entity.getMaxHealth() <= 0.0F) {
