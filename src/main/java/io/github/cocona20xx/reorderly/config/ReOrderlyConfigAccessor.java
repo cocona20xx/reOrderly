@@ -1,7 +1,6 @@
 package io.github.cocona20xx.reorderly.config;
 
 import java.util.List;
-import java.util.Set;
 
 public interface ReOrderlyConfigAccessor {
     boolean canDraw();
@@ -46,7 +45,7 @@ public interface ReOrderlyConfigAccessor {
 
     boolean showOnBosses();
 
-    boolean showingOnlyFocused();
+    boolean showFocusedOnly();
 
     boolean isDebugInfoEnabled();
 

@@ -1,18 +1,14 @@
-package io.github.cocona20xx.reorderly.config.codec;
+package io.github.cocona20xx.reorderly.config;
 
-import com.google.common.collect.Sets;
-
-import java.util.Set;
-
-final class ConfigDefaults {
-    static final String[] blacklist = new String[]{"minecraft:armor_stand", "minecraft:bee", "minecraft:cod", "minecraft:pufferfish", "minecraft:salmon", "minecraft:shulker", "minecraft:tropical_fish", "illuminations:firefly"};
-    static final String[] boss = new String[]{"minecraft:ender_dragon", "minecraft:wither"};
+public final class ConfigDefaults {
+    static final String[] blacklistArray = new String[]{"minecraft:armor_stand", "minecraft:bee", "minecraft:cod", "minecraft:pufferfish", "minecraft:salmon", "minecraft:shulker", "minecraft:tropical_fish", "illuminations:firefly"};
+    static final String[] bossListArray = new String[]{"minecraft:ender_dragon", "minecraft:wither"};
     static final boolean drawEnabled = true;
     static final int maxDistance = 24;
     static final boolean renderEnabledInF1 = false;
     static final float healthBarScale = 1.0F;
-    static final float heathBarScaleLimit = 20.0F;
-    static final float heathBarScaleMin = 0.01F;
+    static final float healthBarScaleLimit = 20.0F;
+    static final float healthBarScaleMin = 0.01F;
     static final double heightAbove = 0.6;
     static final boolean drawBackground = true;
     static final int backgroundPadding = 2;

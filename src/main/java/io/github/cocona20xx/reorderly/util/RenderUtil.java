@@ -5,7 +5,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 
 import java.awt.*;
 
@@ -75,4 +77,5 @@ public final class RenderUtil {
     public static int getBlue(int argb) {
         return argb & 0xFF;
     }
+
 }

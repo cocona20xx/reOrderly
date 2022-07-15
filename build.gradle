@@ -12,6 +12,10 @@ repositories {
         name = 'TerraformersMC'
         url = 'https://maven.terraformersmc.com/'
     }
+    maven {
+        name 'Gegy'
+        url 'https://maven.gegy.dev'
+    }
 }
 
 // All dependency versions are declared in the gradle.properties file
@@ -23,6 +27,7 @@ dependencies {
     modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
     modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fabric_api_version}-${minecraft_version}"
     modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+    include modImplementation("dev.lambdaurora:spruceui:${project.spruceui_version}")
 
     compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }

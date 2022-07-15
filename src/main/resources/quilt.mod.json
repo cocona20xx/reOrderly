@@ -2,7 +2,7 @@
   "schema_version": 1,
   "quilt_loader": {
     "group": "io.cocona20xx",
-    "id": "reOrderly",
+    "id": "reorderly",
     "version": "${version}",
     "metadata": {
       "name": "ReOrderly",
@@ -27,7 +27,7 @@
     "depends": [
       {
         "id": "quilt_loader",
-        "versions": ">=0.17.0-"
+        "versions": ">=0.17.1-beta.6"
       },
       {
         "id": "quilted_fabric_api",
@@ -35,13 +35,12 @@
       },
       {
         "id": "minecraft",
-        "versions": ">=1.18.2"
+        "versions": "1.18.2"
       },
       {
-        "id": "modmenu",
-        "versions": ">=3.2.3"
+        "id": "java",
+        "versions": ">=17"
       }
-
     ]
   },
   "mixin": "reorderly.mixins.json"
